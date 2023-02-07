@@ -39,7 +39,7 @@ let getManager = () => {
                 name: 'officeNum'
             }
         ]).then((answers) => {
-            let name = answers.name;
+            let name = answers.manName;
             let idNum = answers.idNum;
             let email = answers.email;
             console.log(`name: ${name}`);
@@ -128,7 +128,10 @@ let getTeam = () => {
                 choices: ['Manager', 'Engineer', 'Intern']
             },
         ])
-        .then((selection) => {
+        .then((response) => { 
+            let selection = (JSON.stringify(response.teamMember)).replace(/[\[\]"]/g, ""); //the g is important! 
+            //extra brackets and quotes removed
+             console.log(selection);
             if (selection === 'Manager') {
                 getManager();
             }
