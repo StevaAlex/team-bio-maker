@@ -40,8 +40,8 @@ let getManager = () => {
             }
         ]).then((answers) => {
             let name = answers.manName;
-            let idNum = answers.idNum;
-            let email = answers.email;
+            let idNum = answers.manIdNum;
+            let email = answers.manEmail;
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
@@ -73,9 +73,9 @@ let getIntern = () => {
                 name: 'school'
             }
         ]).then((answers) => {
-            let name = answers.name;
-            let idNum = answers.idNum;
-            let email = answers.email;
+            let name = answers.intName;
+            let idNum = answers.intIdNum;
+            let email = answers.intEmail;
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
