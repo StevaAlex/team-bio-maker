@@ -9,14 +9,14 @@ const { async } = require("rxjs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./src/page-template.js");
+// const render = require("./src/page-template.js"); //figure out what this does next!
 
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
 
-
+//create functions with prompts for all employees
 let getIntern = () => {
     return inquirer
         .prompt([
@@ -51,6 +51,7 @@ let getIntern = () => {
             console.log(`email: ${email}`);
             console.log(`school name: ${school}`);
             console.log(`using function: ${intern.name}, ${intern.idNum}, ${intern.email}, ${intern.school}`);
+            getTeam();
         });
 }
 let getEngineer = () => {
@@ -86,33 +87,17 @@ let getEngineer = () => {
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
             console.log(`github: ${github}`);
-            console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`)
+            console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`);
+            getTeam();//adding this here allows you to restart the questions once the then part has run!
         });
 }
 
-let getMoreMembers = () => { 
-    inquirer 
-    .prompt([ 
-        {
-            type: `checkbox`,
-            message: `Who would you like to add to the team?`,
-            name: `teamMember`,
-            choices: [ 'Engineer', 'Intern', "Finish building team"]
-        },
-    ]) 
-    .then ((selection) => { 
-
-    })
-}
-
-let getTeam = () => {
+let getManager = () => {
     inquirer
-        .prompt([ 
-            //ask for manager first
+        .prompt([
             {
                 type: 'input',
-                message: `Let's get started
-                What is the Manager's name?`,
+                message: `What is the Manager's name?`,
                 name: 'manName'
             },
             {
@@ -130,14 +115,8 @@ let getTeam = () => {
                 message: `What is the office number?`,
                 name: 'officeNum'
             },
-            {
-                type: `checkbox`,
-                message: `Who would you like to add to the team?`,
-                name: `teamMember`,
-                choices: [ 'Engineer', 'Intern', "Finish building team"]
-            },
         ])
-        .then((answers) => { 
+        .then((answers) => {
             let name = answers.manName;
             let idNum = answers.manIdNum;
             let email = answers.manEmail;
@@ -147,21 +126,50 @@ let getTeam = () => {
             console.log(`email: ${email}`);
             let officeNum = answers.officeNum;
             console.log(`office number: ${officeNum}`);
-            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`)
+            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`); 
+            getTeam();
+        })
+}
+
+let startQue = [
+    {
+        type: `checkbox`,
+        message: `Who would you like to add to the team?`, //maybe add some nice design here if needed
+        name: `teamMember`,
+        choices: ['Engineer', 'Intern', 'Manager', "Finish building team"]
+    }]
+
+//now, based on user selection, one function will run, and since getTeam() was added to each employee function, it will keep looping: 
+//which team member? => prompts for team member => then back to what team member until the user selects finish building
+let getTeam = () => {
+    inquirer
+        .prompt(startQue)
+        .then((answers) => {
             let selection = (JSON.stringify(answers.teamMember)).replace(/[\[\]"]/g, ""); //the g is important! 
             //extra brackets and quotes removed
-            console.log(selection); 
+            //function that is ran is based on user input
+            console.log(selection);
+            if (selection === 'Manager') {
+                getManager();
+            }
 
-             if (selection === 'Engineer') {
-                getEngineer(); 
+            else if (selection === 'Engineer') {
+                getEngineer();
 
             }
             else if (selection === 'Intern') {
                 getIntern();
             }
-            else {
+            else if (selection === "Finish building team") {
                 console.log("No more members to add")
+
             }
+
+
         });
 }
-getTeam();
+getTeam(); 
+//next steps: 
+//how to save each input? possible create an object and push results to that object 
+//add a push each if statement except last one 
+//on last if statement, render the code to the html page?
