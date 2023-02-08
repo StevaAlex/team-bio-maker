@@ -9,49 +9,14 @@ const { async } = require("rxjs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./src/page-template.js");
+// const render = require("./src/page-template.js");
 
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
 
-let getManager = () => {
-    return inquirer
-        .prompt([
-            {
-                type: 'input',
-                message: `What is the Manager's name?`,
-                name: 'manName'
-            },
-            {
-                type: `number`,
-                message: `What is the Manager's id?`,
-                name: `manIdNum`
-            },
-            {
-                type: `input`,
-                message: `What is the Manager's email?`,
-                name: `manEmail`
-            },
-            {
-                type: 'number',
-                message: `What is the office number?`,
-                name: 'officeNum'
-            }
-        ]).then((answers) => {
-            let name = answers.manName;
-            let idNum = answers.manIdNum;
-            let email = answers.manEmail;
-            const manager = new Manager(name,idNum,email); //save prompt results in function
-            console.log(`name: ${name}`);
-            console.log(`id number: ${idNum}`);
-            console.log(`email: ${email}`);
-            let officeNum = answers.officeNum;
-            console.log(`office number: ${officeNum}`);
-            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`)
-        });
-}
+
 let getIntern = () => {
     return inquirer
         .prompt([
@@ -80,7 +45,7 @@ let getIntern = () => {
             let idNum = answers.intIdNum;
             let email = answers.intEmail;
             let school = answers.school;
-            const intern = new Intern(name,idNum,email, school);//save prompt results in function
+            const intern = new Intern(name, idNum, email, school);//save prompt results in function
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
@@ -120,36 +85,82 @@ let getEngineer = () => {
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
-            console.log(`github: ${github}`); 
+            console.log(`github: ${github}`);
             console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`)
         });
 }
 
+let getMoreMembers = () => { 
+    inquirer 
+    .prompt([ 
+        {
+            type: `checkbox`,
+            message: `Who would you like to add to the team?`,
+            name: `teamMember`,
+            choices: [ 'Engineer', 'Intern', "Finish building team"]
+        },
+    ]) 
+    .then ((selection) => { 
+
+    })
+}
+
 let getTeam = () => {
     inquirer
-        .prompt([
+        .prompt([ 
+            //ask for manager first
+            {
+                type: 'input',
+                message: `Let's get started
+                What is the Manager's name?`,
+                name: 'manName'
+            },
+            {
+                type: `number`,
+                message: `What is the Manager's id?`,
+                name: `manIdNum`
+            },
+            {
+                type: `input`,
+                message: `What is the Manager's email?`,
+                name: `manEmail`
+            },
+            {
+                type: 'number',
+                message: `What is the office number?`,
+                name: 'officeNum'
+            },
             {
                 type: `checkbox`,
                 message: `Who would you like to add to the team?`,
                 name: `teamMember`,
-                choices: ['Manager', 'Engineer', 'Intern']
+                choices: [ 'Engineer', 'Intern', "Finish building team"]
             },
         ])
-        .then((response) => { 
-            let selection = (JSON.stringify(response.teamMember)).replace(/[\[\]"]/g, ""); //the g is important! 
+        .then((answers) => { 
+            let name = answers.manName;
+            let idNum = answers.manIdNum;
+            let email = answers.manEmail;
+            const manager = new Manager(name, idNum, email); //save prompt results in function
+            console.log(`name: ${name}`);
+            console.log(`id number: ${idNum}`);
+            console.log(`email: ${email}`);
+            let officeNum = answers.officeNum;
+            console.log(`office number: ${officeNum}`);
+            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`)
+            let selection = (JSON.stringify(answers.teamMember)).replace(/[\[\]"]/g, ""); //the g is important! 
             //extra brackets and quotes removed
-             console.log(selection);
-            if (selection === 'Manager') {
-                getManager();
+            console.log(selection); 
+
+             if (selection === 'Engineer') {
+                getEngineer(); 
+
             }
-            else if (selection === 'Engineer') {
-                getEngineer();
-            } 
-            else if (selection === 'Intern') { 
+            else if (selection === 'Intern') {
                 getIntern();
             }
-            else { 
-                console.log("ERROR: Please rerun code and select a team member")
+            else {
+                console.log("No more members to add")
             }
         });
 }
