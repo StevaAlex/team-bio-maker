@@ -1,6 +1,6 @@
-// const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -9,7 +9,8 @@ const { async } = require("rxjs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./src/page-template.js");
+const render = require("./src/page-template.js");
+
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
@@ -24,7 +25,7 @@ let getManager = () => {
                 name: 'manName'
             },
             {
-                type: `input`,
+                type: `number`,
                 message: `What is the Manager's id?`,
                 name: `manIdNum`
             },
@@ -34,7 +35,7 @@ let getManager = () => {
                 name: `manEmail`
             },
             {
-                type: 'input',
+                type: 'number',
                 message: `What is the office number?`,
                 name: 'officeNum'
             }
@@ -42,11 +43,13 @@ let getManager = () => {
             let name = answers.manName;
             let idNum = answers.manIdNum;
             let email = answers.manEmail;
+            const manager = new Manager(name,idNum,email); //save prompt results in function
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
             let officeNum = answers.officeNum;
             console.log(`office number: ${officeNum}`);
+            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`)
         });
 }
 let getIntern = () => {
@@ -76,11 +79,13 @@ let getIntern = () => {
             let name = answers.intName;
             let idNum = answers.intIdNum;
             let email = answers.intEmail;
+            let school = answers.school;
+            const intern = new Intern(name,idNum,email, school);//save prompt results in function
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
-            let school = answers.school;
             console.log(`school name: ${school}`);
+            console.log(`using function: ${intern.name}, ${intern.idNum}, ${intern.email}, ${intern.school}`);
         });
 }
 let getEngineer = () => {
@@ -110,11 +115,13 @@ let getEngineer = () => {
             let name = answers.name;
             let idNum = answers.idNum;
             let email = answers.email;
+            let github = answers.github;
+            const engineer = new Engineer(name, idNum, email, github);//save prompt results in function
             console.log(`name: ${name}`);
             console.log(`id number: ${idNum}`);
             console.log(`email: ${email}`);
-            let github = answers.github;
-            console.log(`github: ${github}`);
+            console.log(`github: ${github}`); 
+            console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`)
         });
 }
 
