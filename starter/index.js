@@ -95,7 +95,16 @@ let getEngineer = () => {
             console.log(`email: ${email}`);
             console.log(`github: ${github}`);
             console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`);
+            let engineers = { 
+                name: answers.name, 
+                idNum: answers.idNum, 
+                email: answers.email, 
+                github: answers.github
+            }
+            engineerArr.push(engineers); 
+            console.log(JSON.stringify(engineerArr));
             getTeam();//adding this here allows you to restart the questions once the then part has run!
+
 
         });
 }
