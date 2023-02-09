@@ -15,7 +15,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
-
+//empty arrays: use push function to push an array everytime the code is ran
+ let internArr = []; 
+ let engineerArr = [];
 //create functions with prompts for all employees
 let getIntern = () => {
     return inquirer
@@ -46,11 +48,15 @@ let getIntern = () => {
             let email = answers.intEmail;
             let school = answers.school;
             const intern = new Intern(name, idNum, email, school);//save prompt results in function
-            console.log(`name: ${name}`);
-            console.log(`id number: ${idNum}`);
-            console.log(`email: ${email}`);
-            console.log(`school name: ${school}`);
-            console.log(`using function: ${intern.name}, ${intern.idNum}, ${intern.email}, ${intern.school}`);
+            let interns = { 
+                name: answers.intName, 
+                idNum: answers.intIdNum, 
+                email: answers.intEmail,
+                school: answers.school
+            }
+            //everytime the getIntern function is ran, the interns object is pushed to the array and stored as a new item array!
+            internArr.push(interns);
+            console.log(JSON.stringify(internArr));
             getTeam();
         });
 }
