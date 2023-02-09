@@ -9,16 +9,14 @@ const { async } = require("rxjs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-// const render = require("./src/page-template.js"); //figure out what this does next!
+const render = require("./src/page-template.js"); 
 
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
 //empty arrays: use push function to push an array everytime the code is ran
- let internArr = []; 
- let engineerArr = [];
- let managerArr = [];
+ let teamArr = [];
 //create functions with prompts for all employees
 let getIntern = () => {
     return inquirer
@@ -48,16 +46,10 @@ let getIntern = () => {
             let idNum = answers.intIdNum;
             let email = answers.intEmail;
             let school = answers.school;
-            const intern = new Intern(name, idNum, email, school);//save prompt results in function
-            let interns = { 
-                name: answers.intName, 
-                idNum: answers.intIdNum, 
-                email: answers.intEmail,
-                school: answers.school
-            }
+            let intern = new Intern (name, idNum, email, school);
             //everytime the getIntern function is ran, the interns object is pushed to the array and stored as a new item array!
-            internArr.push(interns);
-            console.log(JSON.stringify(internArr));
+            teamArr.push(intern);
+            console.log(JSON.stringify(teamArr));
             getTeam();
         });
 }
@@ -89,20 +81,9 @@ let getEngineer = () => {
             let idNum = answers.idNum;
             let email = answers.email;
             let github = answers.github;
-            const engineer = new Engineer(name, idNum, email, github);//save prompt results in function
-            console.log(`name: ${name}`);
-            console.log(`id number: ${idNum}`);
-            console.log(`email: ${email}`);
-            console.log(`github: ${github}`);
-            console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`);
-            let engineers = { 
-                name: answers.name, 
-                idNum: answers.idNum, 
-                email: answers.email, 
-                github: answers.github
-            }
-            engineerArr.push(engineers); 
-            console.log(JSON.stringify(engineerArr));
+            let engineer = new Engineer (name,idNum, email, github);
+            teamArr.push(engineer); 
+            console.log(JSON.stringify(teamArr));
             getTeam();//adding this here allows you to restart the questions once the then part has run!
 
 
@@ -137,21 +118,10 @@ let getManager = () => {
             let name = answers.manName;
             let idNum = answers.manIdNum;
             let email = answers.manEmail;
-            const manager = new Manager(name, idNum, email); //save prompt results in function
-            console.log(`name: ${name}`);
-            console.log(`id number: ${idNum}`);
-            console.log(`email: ${email}`);
             let officeNum = answers.officeNum;
-            console.log(`office number: ${officeNum}`);
-            console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`); 
-            let managerDeets = { 
-                name: answers.manName, 
-                dNum: answers.manIdNum, 
-                email: answers.manEmail,
-                officeNum: answers.officeNum
-            }
-            managerArr.push(managerDeets); //saves managerDeets in an array!
-            console.log(JSON.stringify(managerArr));
+            let manager = new Manager(name, idNum,  email, officeNum)
+            teamArr.push(manager); //saves managerDeets in an array!
+            console.log(JSON.stringify(teamArr));
             getTeam();
         })
 }
@@ -186,8 +156,7 @@ let getTeam = () => {
                 getIntern();
             }
             else if (selection === "Finish building team") {
-                console.log("No more members to add")
-
+                console.log("No more members to add"); 
             }
 
 
@@ -195,6 +164,4 @@ let getTeam = () => {
 }
 getTeam(); 
 //next steps: 
-//how to save each input? possible create an object and push results to that object 
-//add a push each if statement except last one 
-//on last if statement, render the code to the html page?
+//figure out what render does and what the issue is
