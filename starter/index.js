@@ -18,6 +18,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 //empty arrays: use push function to push an array everytime the code is ran
  let internArr = []; 
  let engineerArr = [];
+ let managerArr = [];
 //create functions with prompts for all employees
 let getIntern = () => {
     return inquirer
@@ -95,6 +96,7 @@ let getEngineer = () => {
             console.log(`github: ${github}`);
             console.log(`using function: ${engineer.name}, ${engineer.idNum}, ${engineer.email}`);
             getTeam();//adding this here allows you to restart the questions once the then part has run!
+
         });
 }
 
@@ -133,6 +135,14 @@ let getManager = () => {
             let officeNum = answers.officeNum;
             console.log(`office number: ${officeNum}`);
             console.log(`using function: ${manager.name}, ${manager.idNum}, ${manager.email}`); 
+            let managerDeets = { 
+                name: answers.manName, 
+                dNum: answers.manIdNum, 
+                email: answers.manEmail,
+                officeNum: answers.officeNum
+            }
+            managerArr.push(managerDeets); //saves managerDeets in an array!
+            console.log(JSON.stringify(managerArr));
             getTeam();
         })
 }
