@@ -157,6 +157,13 @@ let getTeam = () => {
             }
             else if (selection === "Finish building team") {
                 console.log("No more members to add"); 
+                let html = render(teamArr); 
+                fs.writeFile(outputPath, html, (err) => { 
+                    if (err) { 
+                        console.log(err);
+                    } 
+                    console.log(`file written to ${outputPath}`);
+                })
             }
 
 
