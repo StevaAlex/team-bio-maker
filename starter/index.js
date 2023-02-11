@@ -15,7 +15,7 @@ const render = require("./src/page-template.js");
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
-//empty arrays: use push function to push an array everytime the code is ran
+//empty array: use push function to push an array everytime the code is ran
  let teamArr = [];
 //create functions with prompts for all employees
 let getIntern = () => {
@@ -157,13 +157,13 @@ let getTeam = () => {
             }
             else if (selection === "Finish building team") {
                 console.log("No more members to add"); 
-                let html = render(teamArr); 
-                fs.writeFile(outputPath, html, (err) => { 
+                let html = render(teamArr); //render function goes through temArr and matches the employee type, then runs the corresponding function
+                fs.writeFile(outputPath, html, (err) => { //if team member is a manager, it runs generateManager etc
                     if (err) { 
                         console.log(err);
                     } 
                     console.log(`file written to ${outputPath}`);
-                })
+                }) //once its gone through the array, a HTML file generated from the generateteam function(in page-template) is created in a directory called 'output'
             }
 
 
